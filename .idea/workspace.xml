@@ -11,6 +11,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1xBaskajp5vxZHncwwyWw5tQPmy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -30,6 +35,7 @@
       <updated>1629831146574</updated>
       <workItem from="1629831147387" duration="2000" />
       <workItem from="1630356110183" duration="6000" />
+      <workItem from="1630385923910" duration="210000" />
     </task>
     <servers />
   </component>

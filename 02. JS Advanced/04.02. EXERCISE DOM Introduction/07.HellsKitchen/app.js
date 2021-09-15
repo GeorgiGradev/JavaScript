@@ -7,11 +7,9 @@ function solve() {
    function onClick() {
       let array = JSON.parse(input.value);
 
-      // ["PizzaHut - Peter 500, George 300, Mark 800",
-      // "TheLake - Bob 1300, Joe 780, Jane 660"]
       let restaurants = {
          name: {
-            workers: null,
+            workers: [],
             averageSalary: 0,
             bestSalary: 0
          }
@@ -44,13 +42,6 @@ function solve() {
             bestSalary
          }
       });
-
-
-
-
-
-
-
 
       let bestRestaurantSalary = 0;
       let bestRestaurant = undefined;

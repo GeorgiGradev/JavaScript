@@ -1,69 +1,78 @@
 function solve() {
-   let authorInput = document.querySelector('#creator');
-   let titleInput = document.querySelector('#title');
-   let categoryInput = document.querySelector('#category');
-   let contentInput = document.querySelector('#content');
-   let createButton = document.querySelector('form button');
-   let section = document.querySelector('div.site-content main section');
+   const authorField = document.getElementById('creator');
+   const titleField = document.getElementById('title');
+   const categoryField = document.getElementById('category');
+   const contentField = document.getElementById('content');
+   const createBtn = document.querySelector('.btn.create');
 
-   createButton.addEventListener('click', (event) => {
-       event.preventDefault();
-      let h1 = e('h1', titleInput.value); // =<>
+   createBtn.addEventListener('click', addHandler);
 
-      let categoryStrong = e('strong', categoryInput.value);
-      let categoryP = e('p', 'Category:'); // =<>
-      categoryP.appendChild(categoryStrong);
+   function addHandler(event) {
+      event.preventDefault();
+      const author = authorField.value;
+      const title = titleField.value;
+      const category = categoryField.value;
+      const content = contentField.value;
 
-      let creatorStrong = e('strong', authorInput.value);
-      let creatorP = e('p', 'Creator:'); // =<>
-      creatorP.appendChild(creatorStrong);
 
-      let p = e('p', contentInput.value); // =<>
+      const section = document.querySelector('.site-content main section');
+      const deleteBtn = e('button', { className: 'btn delete' }, 'Delete');
+      const archiveBtn = e('button', { className: 'btn archive' }, 'Archive');
 
-      let deleteButton = e('button', 'Delete', 'btn delete');
-      let archiveButton = e('button', 'Archive', 'btn archive');
-      let div = e('div', undefined, 'buttons'); // =<>
-      div.appendChild(deleteButton);
-      div.appendChild(archiveButton);
+      const elementToAdd = e('article', {},
+         e('h1', {}, title),
+         e('p', {}, 'Category:', e('strong', {}, category)),
+         e('p', {}, 'Creator:', e('strong', {}, author)),
+         e('p', {}, content),
+         e('div', { className: 'buttons' }, deleteBtn, archiveBtn)
+      );
+      section.appendChild(elementToAdd);
 
-      let article = e('article');
+      deleteBtn.addEventListener('click', deleteHandler);
+      archiveBtn.addEventListener('click', archiveHandler);
+   }
 
-      article.appendChild(h1);
-      article.appendChild(categoryP);
-      article.appendChild(creatorP);
-      article.appendChild(p);
-      article.appendChild(div);
+   function deleteHandler(event) {
+      const article = event.target.parentNode.parentNode;
+      article.remove();
+   }
 
-      section.appendChild(article);
+   function archiveHandler(event){
+      const article = event.target.parentNode.parentNode;
+      const title = article.querySelector('h1').textContent;
+      const ol = document.querySelector('.archive-section ol');
+      const li = e('li', {}, title);
+      ol.appendChild(li);
+      article.remove();
 
-      deleteButton.addEventListener('click', (event) => {
-         event.preventDefault();
-         let elementToDelete = event.target.parentNode.parentNode;
-         elementToDelete.remove();
-      });
+      Array.from(ol.children)
+      .sort((a,b) =>  a.textContent.localeCompare(b.textContent))
+      .forEach(element => ol.appendChild(element));
+   }
 
-      archiveButton.addEventListener('click', (event) => {
-         event.preventDefault();
-         let elementTitle = event.target.parentNode.parentNode.firstChild.textContent;
-         let ol = document.querySelector('.archive-section ol');
-         let li = e('li', elementTitle);
-
-         ol.appendChild(li);
-         let elementToDelete = event.target.parentNode.parentNode;
-         elementToDelete.remove();
-
-         Array.from(ol.children)
-         .sort((a,b) =>  a.textContent.localeCompare(b.textContent))
-         .forEach(element => ol.appendChild(element));
-      });
-   });
-
-   function e(type, content, className) {
+   function e(type, attributes, ...content) {
       const result = document.createElement(type);
-      result.textContent = content;
-      if (className) {
-         result.className = className;
+
+      for (let [attr, value] of Object.entries(attributes || {})) {
+         if (attr.substring(0, 2) == 'on') {
+            result.addEventListener(attr.substring(2).toLocaleLowerCase(), value);
+         } else {
+            result[attr] = value;
+         }
       }
+
+      content = content.reduce((a, c) => a.concat(Array.isArray(c) ? c : [c]), []);
+
+      content.forEach(e => {
+         if (typeof e == 'string' || typeof e == 'number') {
+            const node = document.createTextNode(e);
+            result.appendChild(node);
+         } else {
+            result.appendChild(e);
+         }
+      });
+
       return result;
    }
+
 }

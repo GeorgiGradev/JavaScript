@@ -24,8 +24,8 @@ export async function getCarById(carId) {
 }
 
 // Edit
-export async function updateCar(carId, updatedCar) {
-    return await api.put(host + `/data/cars/` + carId, updatedCar);
+export async function updateCar(id, updatedCar) {
+    return await api.put(host + `/data/cars/` + id, updatedCar);
 }
 
 // Delete

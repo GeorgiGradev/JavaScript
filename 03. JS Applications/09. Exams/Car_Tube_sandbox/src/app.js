@@ -9,6 +9,9 @@ import { getUserData } from './utility.js';
 
 import { loginPage } from './views/auth.js';
 import { registerPage } from './views/auth.js';
+import { homePage } from './views/home.js';
+import { catalogPage } from './views/catalog.js';
+import { detailsPage } from './views/details.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -18,6 +21,9 @@ setUserNav();
 page(decorateContext);
 page('/login', loginPage);
 page('/register', registerPage);
+page('/', homePage);
+page('/catalog', catalogPage);
+page('/details/:id', detailsPage);
 page.start();
 
 function decorateContext(ctx, next) {

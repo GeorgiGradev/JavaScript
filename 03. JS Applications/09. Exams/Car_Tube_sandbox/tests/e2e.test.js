@@ -459,7 +459,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe.only('User Profile Page [ 10 Points ]', async () => {
+    describe('User Profile Page [ 10 Points ]', async () => {
 
         // Login user
         beforeEach(async () => {

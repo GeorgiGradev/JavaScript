@@ -15,11 +15,11 @@ import { detailsPage } from './views/details.js';
 import { createPage } from './views/create.js';
 import { editPage } from './views/edit.js';
 import { profilePage } from './views/profile.js';
+import { searchPage } from './views/search.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
 setUserNav();
-
 
 page(decorateContext);
 page('/login', loginPage);
@@ -30,6 +30,7 @@ page('/details/:id', detailsPage);
 page('/create', createPage);
 page('/edit/:id', editPage);
 page('/my-cars', profilePage);
+page('/search', searchPage);
 page.start();
 
 function decorateContext(ctx, next) {

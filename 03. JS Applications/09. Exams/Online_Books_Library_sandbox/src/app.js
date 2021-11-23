@@ -6,10 +6,16 @@ import page from '../node_modules/page/page.mjs';
 
 import { logout as apiLogout } from './api/data.js';
 import { getUserData } from './utility.js';
+import { loginPage } from './views/auth.js';
+import { registerPage } from './views/auth.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
 setUserNav();
+
+page(decorateContext);
+page('/login', loginPage);
+page('/register', registerPage);
 page.start();
 
 function decorateContext(ctx, next) {
@@ -25,7 +31,7 @@ function setUserNav() {
         document.getElementById('user').style.display = '';
         document.getElementById('guest').style.display = 'none';
     // Слагаме Id на greeting елемента в index.html (Ако има greeting)
-        document.getElementById('user-greeting').textContent = `Welcome ${user.email}`;
+        document.getElementById('user-greeting').textContent = `Welcome, ${user.email}`;
         // или
         //document.querySelector('div.profile > span').textContent = `Welcome, ${email}`;
 

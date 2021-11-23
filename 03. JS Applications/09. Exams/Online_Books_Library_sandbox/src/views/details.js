@@ -1,7 +1,7 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { deleteBook , getBookById } from '../api/data.js';
+import { deleteBook , getBookById, likeBook, getTotalLikesCount, didUserLikeBook } from '../api/data.js';
 
-const detailsTemplate = (book, isOwner, onDelete) => html`
+const detailsTemplate = (book, isOwner, onDelete, isLoggedIn, totalLikesCount, onClickLike, didUserLike) => html`
 <section id="details-page" class="details">
     <div class="book-information">
         <h3>${book.title}</h3>
@@ -16,12 +16,19 @@ const detailsTemplate = (book, isOwner, onDelete) => html`
 
             <!-- Bonus -->
             <!-- Like button ( Only for logged-in users, which is not creators of the current book ) -->
-            <a class="button" href="#">Like</a>
+            ${(() => {
+                if (didUserLike == 0) {
+                    if (isLoggedIn && !isOwner) {
+                        return html`<a @click=${onClickLike} class="button" href="javascript:void(0)">Like</a>`;
+                    }
+                }
+            })()}
+          
 
             <!-- ( for Guests and Users )  -->
             <div class="likes">
                 <img class="hearts" src="/images/heart.png">
-                <span id="total-likes">Likes: 0</span>
+                <span id="total-likes">Likes: ${totalLikesCount}</span>
             </div>
             <!-- Bonus -->
         </div>
@@ -35,8 +42,33 @@ const detailsTemplate = (book, isOwner, onDelete) => html`
 export async function detailsPage(ctx){
     const bookId = ctx.params.id;
     const book = await getBookById(bookId);
-    const isOwner = ctx.user && book._ownerId == ctx.user._id;
-    ctx.render(detailsTemplate(book, isOwner, onDelete));
+    const user = ctx.user;
+    let userId;
+    let didUserLike;
+
+    if (user != null){
+        userId = user._id;
+        didUserLike = await didUserLikeBook(bookId, userId);
+    }
+
+    const isOwner = user && book._ownerId == user._id;
+    const isLoggedIn = user != undefined;
+    let totalLikesCount = await getTotalLikesCount(bookId);
+    update();
+
+    async function onClickLike(){
+        const like = {
+            bookId,
+        };
+        await likeBook(like);
+        totalLikesCount = await getTotalLikesCount(bookId);
+        didUserLike = await didUserLikeBook(bookId, userId);
+        update();
+    }
+
+    async function update(){
+        ctx.render(detailsTemplate(book, isOwner, onDelete, isLoggedIn, totalLikesCount, onClickLike, didUserLike));
+    }
 
     async function onDelete(){
         const confirmed = confirm('Are you sure?');

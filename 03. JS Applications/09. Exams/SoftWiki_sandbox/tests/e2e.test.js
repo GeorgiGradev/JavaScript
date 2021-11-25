@@ -182,6 +182,46 @@ describe('E2E tests', function () {
         });
     });
 
+    describe('Home Page [ 15 Points ]', async () => {
+        it('all categories filled [ 5 Points ]', async () => {
+            const arts = mockData.catalog;
+            await page.goto(host);
+            await page.waitForTimeout(interval);
+
+            expect(await page.textContent('section.recent:has-text("JavaScript")')).to.contains(arts[0].title);
+            expect(await page.textContent('section.recent:has-text("C#")')).to.contains(arts[1].title);
+            expect(await page.textContent('section.recent:has-text("Java"):not(:has-text("JavaScript"))')).to.contains(arts[2].title);
+            expect(await page.textContent('section.recent:has-text("Python")')).to.contains(arts[3].title);
+
+            expect(await page.isVisible('text=No articles yet')).to.be.false;
+        });
+
+        it('all categories empty [ 5 Points ]', async () => {
+            await createHandler(endpoints.home, { get: [] });
+
+            await page.goto(host);
+            await page.waitForTimeout(interval);
+
+            expect(await page.textContent('section.recent:has-text("JavaScript")')).to.contains('No articles yet');
+            expect(await page.textContent('section.recent:has-text("C#")')).to.contains('No articles yet');
+            expect(await page.textContent('section.recent:has-text("Java"):not(:has-text("JavaScript"))')).to.contains('No articles yet');
+            expect(await page.textContent('section.recent:has-text("Python")')).to.contains('No articles yet');
+        });
+
+        it('mixed content [ 5 Points ]', async () => {
+            const arts = mockData.catalog.slice(0, 2);
+            await createHandler(endpoints.home, { get: arts });
+
+            await page.goto(host);
+            await page.waitForTimeout(interval);
+
+            expect(await page.textContent('section.recent:has-text("JavaScript")')).to.contains(arts[0].title);
+            expect(await page.textContent('section.recent:has-text("C#")')).to.contains(arts[1].title);
+            expect(await page.textContent('section.recent:has-text("Java"):not(:has-text("JavaScript"))')).to.contains('No articles yet');
+            expect(await page.textContent('section.recent:has-text("Python")')).to.contains('No articles yet');
+        });
+    });
+
     describe('Catalog [ 20 Points ]', () => {
         it('show empty catalog [ 2.5 Points ]', async () => {
             await createHandler(endpoints.catalog, { get: [] });
@@ -426,46 +466,6 @@ describe('E2E tests', function () {
             ]);
 
             expect(del.isCalled).to.be.true;
-        });
-    });
-
-    describe('Home Page [ 15 Points ]', async () => {
-        it('all categories filled [ 5 Points ]', async () => {
-            const arts = mockData.catalog;
-            await page.goto(host);
-            await page.waitForTimeout(interval);
-
-            expect(await page.textContent('section.recent:has-text("JavaScript")')).to.contains(arts[0].title);
-            expect(await page.textContent('section.recent:has-text("C#")')).to.contains(arts[1].title);
-            expect(await page.textContent('section.recent:has-text("Java"):not(:has-text("JavaScript"))')).to.contains(arts[2].title);
-            expect(await page.textContent('section.recent:has-text("Python")')).to.contains(arts[3].title);
-
-            expect(await page.isVisible('text=No articles yet')).to.be.false;
-        });
-
-        it('all categories empty [ 5 Points ]', async () => {
-            await createHandler(endpoints.home, { get: [] });
-
-            await page.goto(host);
-            await page.waitForTimeout(interval);
-
-            expect(await page.textContent('section.recent:has-text("JavaScript")')).to.contains('No articles yet');
-            expect(await page.textContent('section.recent:has-text("C#")')).to.contains('No articles yet');
-            expect(await page.textContent('section.recent:has-text("Java"):not(:has-text("JavaScript"))')).to.contains('No articles yet');
-            expect(await page.textContent('section.recent:has-text("Python")')).to.contains('No articles yet');
-        });
-
-        it('mixed content [ 5 Points ]', async () => {
-            const arts = mockData.catalog.slice(0, 2);
-            await createHandler(endpoints.home, { get: arts });
-
-            await page.goto(host);
-            await page.waitForTimeout(interval);
-
-            expect(await page.textContent('section.recent:has-text("JavaScript")')).to.contains(arts[0].title);
-            expect(await page.textContent('section.recent:has-text("C#")')).to.contains(arts[1].title);
-            expect(await page.textContent('section.recent:has-text("Java"):not(:has-text("JavaScript"))')).to.contains('No articles yet');
-            expect(await page.textContent('section.recent:has-text("Python")')).to.contains('No articles yet');
         });
     });
 

@@ -52,7 +52,6 @@ const homeTemplate = (js, cSharp, java, python) => html`
 
 export async function homePage(ctx) {
     const articles = await getRecentArticles();
-    console.log(articles);
 
     const js = articles.find(x => x.category == 'JavaScript');
     const cSharp = articles.find(x => x.category == 'C#');

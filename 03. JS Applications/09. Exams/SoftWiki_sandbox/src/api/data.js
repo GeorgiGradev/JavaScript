@@ -19,7 +19,7 @@ export async function getRecentArticles(){
 }
 
 // Create
-export async function createArticles(article) {
+export async function createArticle(article) {
     return await api.post(host + `/data/wiki`, article);
 }
 
@@ -29,7 +29,7 @@ export async function getArticleById(articleId) {
 }
 
 // Edit
-export async function updateGame(articleId, updatedArticle) {
+export async function updateArticle(articleId, updatedArticle) {
     return await api.put(host + `/data/wiki/` + articleId, updatedArticle);
 }
 

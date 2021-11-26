@@ -1,7 +1,8 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { deleteGame, getGameById } from '../api/data.js';
+import { createComment, deleteGame, getComments, getGameById } from '../api/data.js';
+import { getUserData } from '../utility.js';
 
-const detailsTemplate = (game, isOwner, onDelete) => html`
+const detailsTemplate = (game, isOwner, onDelete, isLoggedIn, allComments, onClick) => html`
 <section id="game-details">
     <h1>Game Details</h1>
     <div class="info-section">
@@ -22,18 +23,13 @@ const detailsTemplate = (game, isOwner, onDelete) => html`
             <h2>Comments:</h2>
             <ul>
                 <!-- list all comments for current game (If any) -->
-                <li class="comment">
-                    <p>Content: I rate this one quite highly.</p>
-                </li>
-                <li class="comment">
-                    <p>Content: The best game.</p>
-                </li>
+                <!-- Display paragraph: If there are no games in the database -->
+                ${allComments.length == 0 ? html`<p class="no-comment">No comments.</p>` :
+                allComments.map(commentTemplate)}
             </ul>
-            <!-- Display paragraph: If there are no games in the database -->
-            <p class="no-comment">No comments.</p>
         </div>
 
-        <!-- Edit/Delete buttons ( Only for creator of this game )  -->
+
         ${isOwner ? html`<div class="buttons">
             <a href="/edit/${game._id}" class="button">Edit</a>
             <a @click=${onDelete} href="javascript:void(0)" class="button">Delete</a>
@@ -42,21 +38,53 @@ const detailsTemplate = (game, isOwner, onDelete) => html`
 
     <!-- Bonus -->
     <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) -->
-    <article class="create-comment">
+    ${(() => {
+    if (isLoggedIn && !isOwner) {
+     return html`<article class="create-comment">
         <label>Add new comment:</label>
         <form class="form">
-            <textarea name="comment" placeholder="Comment......"></textarea>
-            <input class="btn submit" type="submit" value="Add Comment">
+            <textarea id="commentId" name="comment" placeholder="Comment......"></textarea>
+            <input @click=${onClick} class="btn submit" type="submit" value="Add Comment">
         </form>
-    </article>
-
+    </article>`;
+        }
+    })()}
 </section>`;
+
+
+const commentTemplate = (comment) => html`
+<li class="comment">
+    <p>Content: ${comment.comment}</p>
+</li>`;
+
 
 export async function detailsPage(ctx) {
     const gameId = ctx.params.id;
     const game = await getGameById(gameId);
     const isOwner = ctx.user && game._ownerId == ctx.user._id;
-    ctx.render(detailsTemplate(game, isOwner, onDelete));
+
+    let allComments = await getComments(gameId);
+    const user = getUserData();
+    const isLoggedIn = user != undefined;
+    let comment;
+    update();
+
+    async function onClick(event) {
+        event.preventDefault();
+        let textArea = document.getElementById("commentId");
+        comment = textArea.value;
+        textArea.value = '';
+        if (comment == '') {
+            return alert("Please enter a comment!");
+        }
+        const commentObj = {
+            gameId: gameId,
+            comment: comment,
+        };
+        await createComment(commentObj);
+        allComments = await getComments(gameId);
+        update();
+    }
 
     async function onDelete() {
         const confirmed = confirm('Are you sure?');
@@ -64,5 +92,9 @@ export async function detailsPage(ctx) {
             await deleteGame(gameId);
             ctx.page.redirect('/');
         }
+    }
+
+    async function update() {
+        ctx.render(detailsTemplate(game, isOwner, onDelete, isLoggedIn, allComments, onClick));
     }
 }

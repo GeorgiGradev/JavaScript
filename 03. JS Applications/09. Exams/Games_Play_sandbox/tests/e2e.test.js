@@ -455,7 +455,7 @@ describe('E2E tests', function () {
 
     });
 
-    describe.only('All Games Page for logged-in users [ 5 Points ]', async () => {
+    describe('All Games Page for logged-in users [ 5 Points ]', async () => {
 
         // Login user
         beforeEach(async () => {
@@ -496,7 +496,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe.only('All Games Page for guest users [ 5 Points ]', async () => {
+    describe('All Games Page for guest users [ 5 Points ]', async () => {
 
         it('check all games page with 0 games [ 2.5 Points ]', async () => {
             const { get } = await handle(endpoints.allGames);
@@ -533,7 +533,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe('BONUS: Comments [ 10 Points ]', async () => {
+    describe.only('BONUS: Comments [ 10 Points ]', async () => {
 
         it('Guest should not be able to see the section "Add new comment", but should be able to see the section "Comments" [ 1 Points ]', async () => {
             const data = mockData.catalog[0];

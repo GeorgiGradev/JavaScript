@@ -9,6 +9,9 @@ import { getUserData } from './utility.js';
 import { loginPage, registerPage } from './views/auth.js';
 import { homePage } from './views/home.js';
 import { detailsPage } from './views/details.js';
+import { createPage } from './views/create.js';
+import { editPage } from './views/edit.js';
+import { catalogPage } from './views/catalog.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -20,6 +23,9 @@ page('/login', loginPage);
 page('/register', registerPage);
 page('/', homePage);
 page('/details/:id', detailsPage);
+page('/create', createPage);
+page('/edit/:id', editPage);
+page('/catalog', catalogPage);
 page.start();
 
 function decorateContext(ctx, next) {

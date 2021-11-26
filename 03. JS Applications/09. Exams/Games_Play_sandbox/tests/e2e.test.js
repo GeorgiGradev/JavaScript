@@ -455,7 +455,7 @@ describe('E2E tests', function () {
 
     });
 
-    describe('All Games Page for logged-in users [ 5 Points ]', async () => {
+    describe.only('All Games Page for logged-in users [ 5 Points ]', async () => {
 
         // Login user
         beforeEach(async () => {
@@ -496,7 +496,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe('All Games Page for guest users [ 5 Points ]', async () => {
+    describe.only('All Games Page for guest users [ 5 Points ]', async () => {
 
         it('check all games page with 0 games [ 2.5 Points ]', async () => {
             const { get } = await handle(endpoints.allGames);

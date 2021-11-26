@@ -35,7 +35,7 @@ const detailsTemplate = (game, isOwner, onDelete) => html`
 
         <!-- Edit/Delete buttons ( Only for creator of this game )  -->
         ${isOwner ? html`<div class="buttons">
-            <a href="/edit/${game._id}}" class="button">Edit</a>
+            <a href="/edit/${game._id}" class="button">Edit</a>
             <a @click=${onDelete} href="javascript:void(0)" class="button">Delete</a>
         </div>` : ''}
     </div>

@@ -61,10 +61,11 @@ const commentTemplate = (comment) => html`
 export async function detailsPage(ctx) {
     const gameId = ctx.params.id;
     const game = await getGameById(gameId);
-    const isOwner = ctx.user && game._ownerId == ctx.user._id;
+    const user = getUserData();
+    const isOwner = user && game._ownerId == user.id;
 
     let allComments = await getComments(gameId);
-    const user = getUserData();
+
     const isLoggedIn = user != undefined;
     let comment;
     update();

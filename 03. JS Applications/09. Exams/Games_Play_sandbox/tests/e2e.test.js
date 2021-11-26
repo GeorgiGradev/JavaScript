@@ -533,7 +533,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe.only('BONUS: Comments [ 10 Points ]', async () => {
+    describe('BONUS: Comments [ 10 Points ]', async () => {
 
         it('Guest should not be able to see the section "Add new comment", but should be able to see the section "Comments" [ 1 Points ]', async () => {
             const data = mockData.catalog[0];

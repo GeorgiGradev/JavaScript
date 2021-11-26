@@ -1,5 +1,5 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
 import { login, register } from '../api/data.js';
+import { html } from '../lib.js';
 
 const loginTemplate = (onSubmit) => html`
 <section id="login-page" class="auth">

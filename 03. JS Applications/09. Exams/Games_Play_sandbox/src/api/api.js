@@ -40,7 +40,7 @@ function createOptions(method = 'get', body) {
         options.headers['X-Authorization'] = user.accessToken;
     }
 
-    if (body) {
+    if (body != undefined) {
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(body);
     }     

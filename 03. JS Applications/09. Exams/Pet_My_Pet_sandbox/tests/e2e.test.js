@@ -290,7 +290,7 @@ describe('E2E tests', function () {
         });
     });
 
-    describe('CRUD [ 45 Points ]', () => {
+    describe.only('CRUD [ 45 Points ]', () => {
 
         // Login user
         beforeEach(async () => {

@@ -6,9 +6,10 @@ import { logout as apiLogout } from "./api/data.js";
 import { getUserData } from './utility.js';
 import { loginPage, registerPage } from './views/auth.js';
 import { homePage } from './views/home.js';
-import { detailsPage } from './views/detasils.js';
+import { detailsPage } from './views/details.js';
 import { createPage } from './views/create.js';
 import { editPage } from './views/edit.js';
+import { profilePage } from './views/profile.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout, false);
@@ -21,6 +22,7 @@ page('/', homePage);
 page('/details/:id', detailsPage);
 page('/create', createPage);
 page('/edit/:id', editPage);
+page('/my-pets', profilePage);
 page.start();
 
 function decorateContext(ctx, next) {

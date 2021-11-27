@@ -562,7 +562,7 @@ describe('E2E tests', function () {
 
     });
 
-    describe('BONUS : Like functionality  [ 10 Points ]', async () => {
+    describe.only('BONUS : Like functionality  [ 10 Points ]', async () => {
 
         it('Like button is not visible for guest users [ 1 Points ]', async () => {
             const data = mockData.catalog[0];

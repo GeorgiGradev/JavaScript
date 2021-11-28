@@ -8,6 +8,8 @@ import { logout as apiLogout } from './api/data.js';
 import { getUserData } from './utility.js';
 import { homePage } from './views/home.js';
 import { loginPage, registerPage } from './views/auth.js';
+import { catalogPage } from './views/catalog.js';
+import { detailsPage } from './views/details.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -18,6 +20,8 @@ page(decorateContext);
 page('/', homePage);
 page('/login', loginPage);
 page('/register', registerPage);
+page('/catalog', catalogPage);
+page('/details/:id', detailsPage);
 page.start();
 
 function decorateContext(ctx, next) {

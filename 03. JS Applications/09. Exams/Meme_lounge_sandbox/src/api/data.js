@@ -24,7 +24,7 @@ export async function getMemeById(memeId) {
 }
 
 // Edit
-export async function updateGame(memeId, updatedMeme) {
+export async function updateMeme(memeId, updatedMeme) {
     return await api.put(host + `/data/memes/` + memeId, updatedMeme);
 }
 

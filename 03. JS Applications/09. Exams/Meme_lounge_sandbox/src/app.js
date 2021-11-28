@@ -10,6 +10,8 @@ import { homePage } from './views/home.js';
 import { loginPage, registerPage } from './views/auth.js';
 import { catalogPage } from './views/catalog.js';
 import { detailsPage } from './views/details.js';
+import { createPage } from './views/create.js';
+import { editPage } from './views/edit.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -22,6 +24,8 @@ page('/login', loginPage);
 page('/register', registerPage);
 page('/catalog', catalogPage);
 page('/details/:id', detailsPage);
+page('/create', createPage);
+page('/edit/:id', editPage);
 page.start();
 
 function decorateContext(ctx, next) {

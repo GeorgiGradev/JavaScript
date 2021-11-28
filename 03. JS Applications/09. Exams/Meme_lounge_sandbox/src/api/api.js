@@ -67,8 +67,8 @@ export async function login(email, password) {
     setUserData(result);
     return result;
 }
-export async function register(email, password) {
-    const result = await post(settings.host + '/users/register', { email, password });
+export async function register(username, email, password, gender) {
+    const result = await post(settings.host + '/users/register', { username, email, password, gender });
     setUserData(result);
     return result;
 }

@@ -1,5 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { createMeme } from '../api/data.js';
+import { notify } from '../notification.js';
 
 const createTemplate = (onSubmit) => html`
 <section id="create-meme">
@@ -28,13 +29,16 @@ export async function createPage(ctx) {
             description: formData.get('description').trim(),
             imageUrl: formData.get('imageUrl').trim(),
         };
-
-        if (Object.values(meme).some(x => !x)) {
-            return alert('All fields are required!');
+        try {
+            if (Object.values(meme).some(x => !x)) {
+                throw new Error('All fields are required!');
+            }
+    
+            await createMeme(meme);
+            event.target.reset();
+            ctx.page.redirect('/catalog');
+        } catch(err){
+            notify(err.message);
         }
-
-        await createMeme(meme);
-        event.target.reset();
-        ctx.page.redirect('/catalog');
     }
 }

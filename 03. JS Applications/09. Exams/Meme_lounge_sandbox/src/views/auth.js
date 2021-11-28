@@ -27,10 +27,17 @@ export async function loginPage(ctx) {
         const email = formData.get('email').trim();
         const password = formData.get('password').trim();
 
-        await login(email, password);
-        event.target.reset();
-        ctx.setUserNav();
-        ctx.page.redirect('/catalog');
+        try{
+            if (!email || !password) {
+                throw new Error("All fields are required!");
+            }
+            await login(email, password);
+            event.target.reset();
+            ctx.setUserNav();
+            ctx.page.redirect('/catalog');
+        } catch(err) {
+            notify(err.message);
+        }
     }
 }
 
@@ -72,16 +79,21 @@ export async function registerPage(ctx) {
         const password = formData.get('password').trim();
         const repeatPass = formData.get('repeatPass').trim();
         const gender = formData.get('gender');
+        
+        try{
+            if (!username, !email || !password || !repeatPass) {
+                throw new Error('All fields are requirerd!');
+            }
+            if (password != repeatPass) {
+                throw new Error('Password don\'t match!');
+            }
+            await register(username, email, password, gender);
+            event.target.reset();
+            ctx.setUserNav();
+            ctx.page.redirect('/catalog');
+        } catch(err) {
+            notify(err.message);
+        }
 
-        if (!username, !email || !password || !repeatPass) {
-            return alert('All fields are requirerd!');
-        }
-        if (password != repeatPass) {
-            return alert('Password don\'t match!');
-        }
-        await register(username, email, password, gender);
-        event.target.reset();
-        ctx.setUserNav();
-        ctx.page.redirect('/catalog');
     }
 }

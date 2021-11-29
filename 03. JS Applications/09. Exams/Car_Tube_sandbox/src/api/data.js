@@ -29,8 +29,8 @@ export async function updateCar(carId, updatedCar) {
 }
 
 // Delete
-export async function deleteCar(id) {
-    return await api.del(host + `/data/cars/` + id);
+export async function deleteCar(carId) {
+    return await api.del(host + `/data/cars/` + carId);
 }
 
 // Get my products

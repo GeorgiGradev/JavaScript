@@ -11,6 +11,10 @@ import { loginPage, registerPage } from './views/auth.js';
 import { homePage } from './views/home.js';
 import { catalogPage } from './views/catalog.js';
 import { detailsPage } from './views/details.js';
+import { createPage } from './views/create.js';
+import { editPage } from './views/edit.js';
+import { profilePage } from './views/profile.js';
+import { searchPage } from './views/search.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -22,6 +26,10 @@ page('/register', registerPage);
 page('/', homePage);
 page('/catalog', catalogPage);
 page('/details/:id', detailsPage);
+page('/create', createPage);
+page('/edit/:id', editPage);
+page(`/my-cars`, profilePage);
+page('/search', searchPage);
 page.start();
 
 function decorateContext(ctx, next) {

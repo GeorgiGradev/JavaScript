@@ -62,13 +62,13 @@ export async function del(url) {
 }
 
 //authentication functions (login, register, logout)
-export async function login(email, password) {
-    const result = await post(settings.host + '/users/login', { email, password });
+export async function login(username, password) {
+    const result = await post(settings.host + '/users/login', { username, password });
     setUserData(result);
     return result;
 }
-export async function register(email, password) {
-    const result = await post(settings.host + '/users/register', { email, password });
+export async function register(username, password) {
+    const result = await post(settings.host + '/users/register', { username, password });
     setUserData(result);
     return result;
 }

@@ -29,7 +29,7 @@ export async function updateBook(bookId, updatedBook) {
 }
 
 // Delete
-export async function deleteBooks(bookId) {
+export async function deleteBook(bookId) {
     return await api.del(host + `/data/books/` + bookId);
 }
 

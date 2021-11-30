@@ -9,17 +9,22 @@ import { getUserData } from './utility.js';
 import { loginPage, registerPage } from './views/auth.js';
 import { homePage } from './views/home.js';
 import { detailsPage } from './views/details.js';
+import { createPage } from './views/create.js';
+import { editPage } from './views/edit.js';
+import { profilePage } from './views/profile.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
 setUserNav();
-
 
 page(decorateContext);
 page('/login', loginPage);
 page('/register', registerPage);
 page('/', homePage);
 page('/details/:id', detailsPage);
+page('/create', createPage);
+page('/edit/:id', editPage);
+page('/my-books', profilePage);
 page.start();
 
 function decorateContext(ctx, next) {

@@ -1,29 +1,29 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { deleteBook, getBookById } from '../api/data.js';
+import { deleteBook, getBookById, getTotalLikesCount, likeBook, didUserLikeBook} from '../api/data.js';
 import { getUserData } from '../utility.js';
 
-const detailsTemplate = (book, isOwner, onDelete) => html`
+const detailsTemplate = (book, isOwner, onDelete, totalLikes, user, clickLike, didUserLike) => html`
 <section id="details-page" class="details">
     <div class="book-information">
         <h3>${book.title}</h3>
         <p class="type">Type: ${book.type}</p>
         <p class="img"><img src=${book.imageUrl}></p>
         <div class="actions">
-            <!-- Edit/Delete buttons ( Only for creator of this book )  -->
             ${isOwner ? html`<a class="button" href="/edit/${book._id}">Edit</a>
             <a @click=${onDelete} class="button" href="javascript:void(0)">Delete</a>` : null}
 
-
-            <!-- Bonus -->
             <!-- Like button ( Only for logged-in users, which is not creators of the current book ) -->
-            <a class="button" href="#">Like</a>
-
-            <!-- ( for Guests and Users )  -->
+            ${(() => {
+                if (user && !isOwner && didUserLike == 0) {
+                   return html`<a @click=${clickLike} class="button" href="javascript:void(0)">Like</a>`; 
+                }
+            })()}
+            
             <div class="likes">
                 <img class="hearts" src="/images/heart.png">
-                <span id="total-likes">Likes: 0</span>
+                <span id="total-likes">Likes: ${totalLikes}</span>
             </div>
-            <!-- Bonus -->
+
         </div>
     </div>
     <div class="book-description">
@@ -32,18 +32,31 @@ const detailsTemplate = (book, isOwner, onDelete) => html`
     </div>
 </section>`;
 
-export async function detailsPage(ctx){
+export async function detailsPage(ctx) {
     const bookId = ctx.params.id;
     const book = await getBookById(bookId);
     const user = getUserData();
     const isOwner = user && book._ownerId == user._id;
-    ctx.render(detailsTemplate(book, isOwner, onDelete));
+    let totalLikes = await getTotalLikesCount(bookId);
+    let didUserLike = user && await didUserLikeBook(bookId, user._id);
+    update();
 
-    async function onDelete(){
+    async function clickLike(){
+        await likeBook({ bookId: bookId});
+        totalLikes = await getTotalLikesCount(bookId);
+        didUserLike = await didUserLikeBook(bookId, user._id);
+        update();
+    }
+
+    async function onDelete() {
         const confirmed = confirm('Are you sure?');
-        if (confirmed){
+        if (confirmed) {
             await deleteBook(bookId);
             ctx.page.redirect('/');
         }
+    }
+
+    async function update() {
+        ctx.render(detailsTemplate(book, isOwner, onDelete, totalLikes, user, clickLike, didUserLike));
     }
 }

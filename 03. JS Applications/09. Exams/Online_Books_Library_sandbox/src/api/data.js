@@ -51,6 +51,6 @@ export async function getTotalLikesCount(bookId){
 }
 
 //did user like returns 0 if not liked OR 1 if liked
-export async function didUserLikePet(bookId, userId){
+export async function didUserLikeBook(bookId, userId){
     return await api.get(host + `/data/likes?where=bookId%3D%22${bookId}%22%20and%20_ownerId%3D%22${userId}%22&count`);
 }

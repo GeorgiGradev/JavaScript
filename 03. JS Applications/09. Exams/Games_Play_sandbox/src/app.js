@@ -8,6 +8,9 @@ import { logout as apiLogout } from './api/data.js';
 import { getUserData } from './utility.js';
 import { loginPage, registerPage } from './views/auth.js';
 import { homePage } from './views/home.js';
+import { detailsPage } from './views/details.js';
+import { catalogPage } from './views/catalog.js';
+import { createPage } from './views/create.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -17,6 +20,9 @@ page(decorateContext);
 page("/login", loginPage);
 page('/register', registerPage);
 page('/', homePage);
+page('/details/:id', detailsPage);
+page('/catalog', catalogPage);
+page('/create', createPage);
 page.start();
 
 function decorateContext(ctx, next) {

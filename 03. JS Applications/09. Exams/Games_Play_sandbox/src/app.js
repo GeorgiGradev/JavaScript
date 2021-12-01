@@ -11,6 +11,7 @@ import { homePage } from './views/home.js';
 import { detailsPage } from './views/details.js';
 import { catalogPage } from './views/catalog.js';
 import { createPage } from './views/create.js';
+import { editPage } from './views/edit.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -23,6 +24,7 @@ page('/', homePage);
 page('/details/:id', detailsPage);
 page('/catalog', catalogPage);
 page('/create', createPage);
+page('/edit/:id', editPage);
 page.start();
 
 function decorateContext(ctx, next) {

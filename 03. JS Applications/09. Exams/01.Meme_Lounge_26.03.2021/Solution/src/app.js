@@ -12,6 +12,7 @@ import { profilePage } from './views/profile.js';
 import { registerPage } from './views/register.js';
 
 const main = document.querySelector('main');
+
 document.getElementById('logoutBtn').addEventListener('click', logout);
 setUserNav();
 
